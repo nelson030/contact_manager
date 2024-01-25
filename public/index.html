@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/handlebars.js"></script>
+    <link href="stylesheets/app.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <main>
+      <section id="header">
+        <h1>Contact Manager</h1>
+      </section>
+      <section id="screen">
+        <div>
+          <input type="text" id="searchtext" placeholder="search">
+          <button data-action="clearsearch">Clear Search</button>
+        </div>
+        <div>
+          <ul>
+            <li><a href="#" data-action="createcontactform">Create Contact</a></li>
+            <li><a href="#" data-action="showallcontacts">Show All Contacts</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <script id="contactlist" type="text/x-handlebars">
+      <div id="contactresults">
+        <h2>Search Results</h2>
+        {{#each contacts}}
+        <div>
+          <h3>{{full_name}}</h3>
+          <p>Email: {{email}}</p>
+          <p>Phone Number: {{phone_number}}</p>
+          <h5>Tags: {{tags}}</h5>
+          <button data-action="editcontact" data-contact-id={{id}}>Edit</button>
+          <button data-action="deletecontact" data-contact-id={{id}}>Delete</button>
+        </div>
+        {{/each}}
+      </div>
+    </script>
+    <script id="createcontact" type="text/x-handlebars">
+      <form id="createcontactform" data-method="post" action="/api/contacts">
+        <h2>Create New Contact</h2>
+        <div>
+          <label for="name">Full Name:</label>
+          <input type="text" name="name" placeholder="Name"/>
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input type="text" name="email" placeholder="example@example.com"/>
+        </div>
+        <div>
+          <label for="phone">Phone Number:</label>
+          <input type="text" name="phone" placeholder="111-222-3333"/>
+        </div>
+        <div>
+          <label for="tags">Tags:</label>
+          <ul name="tags" id="tagslist">
+            {{#each tags}}
+            {{> tagitem}}
+            {{/each}}
+          </ul>
+        </div>
+        <div>
+          <label for="addtag">Add a Tag:</label>
+          <select name="addtag" id="addtag">
+            {{#each tagOptions}}
+            {{> tagoption}}
+            {{/each}}
+          </select>
+          <button data-action="addtag">Add</button>
+        </div>
+        <div>
+          <button type="submit" data-action="submitform">Submit</button>
+        </div>
+      </form>
+    </script>
+    <script id="tagoption" type="text/x-handlebars">
+      <option value={{this}}>{{this}}</option>
+    </script>
+    <script id="tagitem" type="text/x-handlebars">
+      <li>
+        <p data-text={{this}}>{{this}}</p>
+        <button data-action="removetag">Remove Tag</button>
+      </li>
+    </script>
+    <script src="javascripts/contact_manager.js"></script>
+  </body>
+</html>

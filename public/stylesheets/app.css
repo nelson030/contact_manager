@@ -1,0 +1,7 @@
+p#tagslist {
+  display: inline-block;
+}
+
+#tagslist p {
+  display: inline-block;
+}
